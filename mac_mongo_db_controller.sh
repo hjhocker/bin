@@ -7,8 +7,9 @@ LOCK_FILE=/data/db/mongod.lock
 function printHelp() {
 	echo "Function usage "
 	echo "--------"
-	echo "mongo_controller.sh <start|stop|hardKill|status>"
+	echo "mongo_controller.sh <start|stop|hardKill|status|showPID>"
 	echo "The hardKill option explicity finds the PID and kills the process"
+	echo "the showPID options simply shows the Mongo PID"
 	exit 1
 }
 
@@ -79,6 +80,10 @@ case "$1" in
 		;;
 	status)
 		showMongoStatus
+		;;
+	showPID)
+		mongo_pid=$(ps aux | egrep -i mongod | grep -v grep | awk '{print $2}')
+		echo "The Mongo PID is $mongo_pid"
 		;;
 	hardKill)
 		declare -i mongo_pid
